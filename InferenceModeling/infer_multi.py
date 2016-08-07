@@ -84,6 +84,7 @@ def prep_data(sample):
     # Gender Data Prep
     # Loop, transform and write test and train collections
     print 'Step 2) Performing Transform and Save'
+    print '\tTransforming: %i records' % data.count()
     for i, r in enumerate(records):
         if i < sample:
             # Start massive validity check
@@ -119,7 +120,7 @@ def prep_data(sample):
 
                 # Test or Train ?
                 decider = random.randint(1, 10)
-                if decider % 2 == 0:
+                if decider > 7:
                     gnd_test.insert({'_id': r['_id'],
                                      'ind': ind_data,
                                      'gender': r['Gender']})
@@ -132,6 +133,7 @@ def prep_data(sample):
 
 
 def classifiers():
+    count = float(data.count())
     print 'Step 3) Starting Classification'
     start = int(time.time())
     # rand_smpl = [ mylist[i] for i in sorted(random.sample(xrange(len(mylist)), 4)) ]
@@ -144,6 +146,7 @@ def classifiers():
     classes = [x['gender'] for x in train]
 
     print '\tTraining the algorithms:'
+    print '\tSize of training set: ', len(train)
 
     # Random Forest Classifier
     print '\t\tRandom Forest'
@@ -156,7 +159,7 @@ def classifiers():
 
     # Stochastic Gradient Descent
     print '\t\tStochastic Gradient Descent'
-    # Modified huber enables proba
+    # Modified huber enables probability
     sgd_clf = SGDClassifier(loss='modified_huber', penalty='l2', shuffle=True)
     sgd_clf.fit = sgd_clf.fit(predictor, classes)
 
@@ -173,6 +176,8 @@ def classifiers():
                                       {'_id': 1,
                                        'ind': 1,
                                        'gender': 1})]
+
+    print '\tSize of test set: ', len(tests)
 
     test_predictor = [x['ind'] for x in tests]
 
@@ -193,11 +198,9 @@ def classifiers():
 
         # Method Averaging using probabilities
 
-        # ma_prob = [round(numpy.mean([rf_prob[i][0], kn_prob[i][0]]), 2),
-        #            round(numpy.mean([rf_prob[i][1], kn_prob[i][1]]), 2)]
-
         ma_prob = [round(numpy.mean([rf_prob[i][0], kn_prob[i][0], sgd_prob[i][0]]), 2),
                    round(numpy.mean([rf_prob[i][1], kn_prob[i][1], sgd_prob[i][1]]), 2)]
+
         if abs(ma_prob[0] - ma_prob[1]) > .00:
             if ma_prob[0] > ma_prob[1]:
                 ma_cls = 0
