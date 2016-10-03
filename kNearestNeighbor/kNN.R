@@ -54,7 +54,7 @@ iris_pred <- knn(train = iris.training,
                  cl = iris.trainLabels, 
                  k=3)  # This sets the value of k
 
-# results - these aren;t very useful like this!
+# results - these aren't very useful like this!
 iris_pred
 
 cbind(iris_pred, iris.testLabels)
@@ -64,6 +64,9 @@ cbind(iris_pred, iris.testLabels)
 install.packages('gmodels', dependencies=TRUE)
 library(gmodels)
 
-CrossTable(x = iris.testLabels, y = iris_pred, prop.chisq=FALSE)
+CrossTable(x = iris.testLabels, 
+           y = iris_pred, 
+           prop.chisq=FALSE)
+
 
 
