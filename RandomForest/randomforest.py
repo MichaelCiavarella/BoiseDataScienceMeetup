@@ -43,6 +43,7 @@ var_importance = rf.transform(predictor, threshold=None)
 test_predictor = [x[1:5] for x in test]
 test_classes = [x[5] for x in test]
 
+
 # Provides probability of belonging to each class
 rf_prob = rf.predict_proba(test_predictor).tolist()
 # Predicts the class
