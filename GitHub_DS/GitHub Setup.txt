@@ -1,0 +1,77 @@
+GitHub Setup
+
+REPOS:
+
+GAIN:
+SSH: git@github.body.prod:randall-shane/GAIN.git (internal)
+    (external) use clone URL for service
+
+SETUP:
+1) SSH keys
+
+2) local git config (Add per repo directory)
+    http://git-scm.com/docs/gittutorial
+        $ git config --global user.name "Your Name Comes Here"
+        $ git config --global user.email you@yourdomain.example.com
+        $ git remote add origin git@gitserver:/opt/git/project.git
+
+3) Itinialize local directory
+    git init
+
+4) Push or Pull
+    git pull origin master
+
+
+WORKFLOW:
+Obtain Status:          git status
+
+1) Retrieve data from repository
+    git fetch
+        OR
+    git clone https or ssh
+        OR
+    git pull
+
+2) Branches
+    create branch:              git checkout -b <branch>
+    list branch:                git <branch>
+    checkout branch:            git checkout <branch>
+    checkout remote branch:     git fetch, then git checkout <branch>
+    delete local branch:        git branch -d <branch>
+    delete remote branch:       git branch -D <branch>
+
+3) Code Commits:
+    commit only:                git commit -a
+    commit w/message:           git commit -am 'Commit message'
+    commit new branch           git push -u origin <branch>
+    merge branch and master:    git merge <branch>
+
+4) Repository:
+    push branch to repo:        git push
+    pull repo local:            git pull
+    rebase branch to master     git rebase origin/master
+
+
+PROCESS:
+-Start with master branch on repo
+--make local copy:              git pull
+--create branch to work from:   git branch -b <branch>
+--switch to branch to work:     git checkout <branch>
+
+-Commit work back to repo
+--add any new files:            git add .
+--local commit with message:    git commit -am '<message>'
+        (note, message can contain pivotal story id)
+--rebase branch to master       git rebase origin/master
+--push commits to repo:         git push
+
+
+-Code Review
+--On github, go to branch and make a pull request
+--Pull requests are peer reviewed and then merged
+--Once merged, the branch can be deleted from the repo
+
+
+GIT Tutorial:  http://git-scm.com/docs/gittutorial
+GIT Reference: http://git-scm.com/docs
+
